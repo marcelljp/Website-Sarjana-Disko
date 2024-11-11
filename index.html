@@ -156,8 +156,19 @@
                 nowPlayingButton.textContent = 'Play'; // Ensure text stays "Play" if song has never been started
             }
         });
+
+        // Function for the "Watch full MV" button
+        window.watchMV = function () {
+            if (!audio.paused) {
+                audio.pause(); // Pause the audio if it's playing
+                stopRotation(); // Stop rotation
+                nowPlayingButton.textContent = 'Paused'; // Update button text
+            }
+            // Open the YouTube link in a new tab
+            window.open('https://www.youtube.com/watch?v=7rkB7-zWjxA&pp=ygUVZ2l2ZSBpbiB0byB0aGUgZ3Jvb3Zl', '_blank');
+        };
     });
-</script> 
+</script>  
 
 </body>
 </html>
