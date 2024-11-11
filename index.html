@@ -91,7 +91,7 @@
     Your browser does not support the audio element.
   </audio>
 
-<!-- JavaScript for autoplay, play/pause, record rotation, and hover effect -->
+<!-- JavaScript for autoplay, play/pause, and record rotation -->
 <script defer>
     document.addEventListener('DOMContentLoaded', function () {
         const audio = document.getElementById('background-audio');
@@ -143,19 +143,6 @@
             // Open the YouTube link in a new tab
             window.open('https://www.youtube.com/watch?v=7rkB7-zWjxA&pp=ygUVZ2l2ZSBpbiB0byB0aGUgZ3Jvb3Zl', '_blank');
         };
-
-        // Event listeners for hover effect to change text content
-        nowPlayingButton.addEventListener('mouseenter', function () {
-            if (audio.paused) {
-                nowPlayingButton.textContent = 'Play'; // Change text to "Play" on hover if paused
-            }
-        });
-
-        nowPlayingButton.addEventListener('mouseleave', function () {
-            if (audio.paused) {
-                nowPlayingButton.textContent = 'Paused'; // Revert back to "Paused" when not hovered
-            }
-        });
     });
 </script>  
 
