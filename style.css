@@ -111,17 +111,19 @@ nav ul li a:hover {
 
 .now-playing-button {
     position: relative;
+    text-align: center;
     font-family: Montserrat, serif;
     font-size: 2.2rem;
     font-weight: bold;
     padding: 10px 10px;
+    width: 300px;
     background-color: white;
     border: 3px solid #1c1c4e;
     border-radius: 50px;
     margin-bottom: 50px;
     cursor: pointer;
     z-index: 2;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 .now-playing-button:hover {
