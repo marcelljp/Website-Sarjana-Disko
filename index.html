@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarjana Disko</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        .record {
+            width: 370px;
+            height: 370px;
+            background: url('Kaset.png') no-repeat center;
+            background-size: cover;
+            margin-bottom: 40px;
+            border: none;
+        }
+
+        .now-playing-button {
+            position: relative;
+            font-size: 2.2rem;
+            padding: 2px 30px;
+            background-color: white;
+            border: 3px solid #1c1c4e;
+            border-radius: 50px;
+            margin-bottom: 50px;
+            cursor: pointer;
+            z-index: 2;
+            transition: background-color 0.3s;
+        }
+
+        .now-playing-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .outlined-text {
+            font-size: 3.2em;
+            color: #F89302; /* Fill color */
+            filter: url(#outline); /* Applying the outline filter */
+        }
+    </style>
+</head>
+<body>
+  <!-- Navigation Menu -->
+  <nav>
+    <img src="Logo Sadis.png" alt="Logo Sadis" class="logo">
+    <div class="menu-container">
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <section class="landing">
+    <div class="overlay">
+        <div class="now-playing-wrapper">
+            <div class="now-playing-shadow"></div>
+            <button class="now-playing-button">Now Playing</button>
+        </div>
+        <div class="record"></div>
+        <h1 class="outlined-text">Give In to The Groove</h1>
+
+        <svg width="0" height="0">
+            <defs>
+                <filter id="outline">
+                    <feMorphology in="SourceAlpha" result="MORPH" operator="dilate" radius="3"/>
+                    <feMerge>
+                        <feMergeNode in="MORPH"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+        </svg>
+
+        <!-- Watch full MV Button -->
+        <div class="button-wrapper">
+            <div class="button-shadow"></div>
+            <button class="watch-button" onclick="watchMV()">Watch full MV</button>
+        </div>
+    </div>
+  </section>
+
+  <!-- Audio Element -->
+  <audio id="background-audio" autoplay loop>
+    <source src="Give in to The Groove.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+<!-- JavaScript for autoplay, play/pause, record rotation, and hover effect -->
+<script defer>
+    document.addEventListener('DOMContentLoaded', function () {
+        const audio = document.getElementById('background-audio');
+        const record = document.querySelector('.record');
+        const nowPlayingButton = document.querySelector('.now-playing-button');
+
+        // Set the initial text to "Play"
+        nowPlayingButton.textContent = 'Play';
+        let hasStarted = false; // Flag to track if the song has ever been started
+
+        let currentRotation = 0;  // Keeps track of the current rotation in degrees
+        let rotationInterval = null;  // To store the interval reference
+
+        // Function to start the rotation
+        function startRotation() {
+            rotationInterval = setInterval(() => {
+                currentRotation = (currentRotation + 1) % 360; // Increase rotation by 1 degree for smoother motion
+                record.style.transform = `rotate(${currentRotation}deg)`;
+            }, 10); // Runs every 10 milliseconds
+        }
+
+        // Function to stop the rotation
+        function stopRotation() {
+            clearInterval(rotationInterval);
+        }
+
+        // Event listener for the "Now Playing" button
+        nowPlayingButton.addEventListener('click', function () {
+            if (audio.paused) {
+                audio.play(); // Play audio
+                startRotation(); // Start rotating
+                nowPlayingButton.textContent = 'Now Playing'; // Update button text
+                hasStarted = true; // Mark that the song has started at least once
+            } else {
+                audio.pause(); // Pause audio
+                stopRotation(); // Stop rotating
+                nowPlayingButton.textContent = 'Paused'; // Update button text
+            }
+        });
+
+        // Event listener for the audio element when it ends
+        audio.addEventListener('ended', function () {
+            stopRotation(); // Stop rotation when the audio ends
+            nowPlayingButton.textContent = 'Paused'; // Update button text
+        });
+
+        // Event listeners for hover effect to change text content
+        nowPlayingButton.addEventListener('mouseenter', function () {
+            if (audio.paused && hasStarted) {
+                nowPlayingButton.textContent = 'Play'; // Change text to "Play" on hover if paused after being played
+            } else if (!audio.paused) {
+                nowPlayingButton.textContent = 'Pause'; // Change text to "Pause" on hover if playing
+            }
+        });
+
+        nowPlayingButton.addEventListener('mouseleave', function () {
+            if (audio.paused && hasStarted) {
+                nowPlayingButton.textContent = 'Paused'; // Revert back to "Paused" when not hovered and paused after playing
+            } else if (!audio.paused) {
+                nowPlayingButton.textContent = 'Now Playing'; // Revert to "Now Playing" when not hovered and playing
+            } else if (!hasStarted) {
+                nowPlayingButton.textContent = 'Play'; // Ensure text stays "Play" if song has never been started
+            }
+        });
+    });
+</script> 
+
+</body>
+</html>
